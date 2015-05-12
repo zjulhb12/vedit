@@ -17,11 +17,23 @@ private:
     void Saveas();
     void Close();
 
+    void Undo();
+    void Redo();
+    void Cut();
+    void Copy();
+    void Paste();
+
     QAction *NewAction;
     QAction *OpenAction;
     QAction *SaveAction;
     QAction *SaveasAction;
     QAction *CloseAction;
+
+    QAction *UndoAction;
+    QAction *RedoAction;
+    QAction *CutAction;
+    QAction *CopyAction;
+    QAction *PasteAction;
 };
 
 #endif // MAINWINDOW_H
