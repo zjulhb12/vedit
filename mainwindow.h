@@ -15,11 +15,13 @@ private:
     void Open();
     void Save();
     void Saveas();
+    void Close();
 
     QAction *NewAction;
     QAction *OpenAction;
     QAction *SaveAction;
     QAction *SaveasAction;
+    QAction *CloseAction;
 };
 
 #endif // MAINWINDOW_H
