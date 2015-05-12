@@ -10,6 +10,16 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
+private:
+    void New();
+    void Open();
+    void Save();
+    void Saveas();
+
+    QAction *NewAction;
+    QAction *OpenAction;
+    QAction *SaveAction;
+    QAction *SaveasAction;
 };
 
 #endif // MAINWINDOW_H
