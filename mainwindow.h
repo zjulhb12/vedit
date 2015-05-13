@@ -23,6 +23,8 @@ private:
     void Copy();
     void Paste();
 
+    void About();
+
     QAction *NewAction;
     QAction *OpenAction;
     QAction *SaveAction;
@@ -34,6 +36,8 @@ private:
     QAction *CutAction;
     QAction *CopyAction;
     QAction *PasteAction;
+
+    QAction *AboutAction;
 };
 
 #endif // MAINWINDOW_H

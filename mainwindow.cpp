@@ -6,6 +6,7 @@
 #include <QDebug>
 
 #include "mainwindow.h"
+#include "about.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -13,41 +14,24 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowTitle(tr("vedit"));
     resize(400, 300);
 
-    NewAction = new QAction(tr("&New"), this);
+    NewAction = new QAction(tr("New"), this);
     NewAction->setShortcuts(QKeySequence::New);
     connect(NewAction, &QAction::triggered, this, &MainWindow::New);
-    OpenAction = new QAction(tr("&Open"), this);
+    OpenAction = new QAction(tr("Open"), this);
     OpenAction->setShortcuts(QKeySequence::Open);
 //    OpenAction->setStatusTip(tr("Open an existing file"));
     connect(OpenAction, &QAction::triggered, this, &MainWindow::Open);
-    SaveAction = new QAction(tr("&Save"), this);
+    SaveAction = new QAction(tr("Save"), this);
     SaveAction->setShortcuts(QKeySequence::Save);
     connect(SaveAction, &QAction::triggered, this, &MainWindow::Save);
-    SaveasAction = new QAction(tr("&Save As"), this);
+    SaveasAction = new QAction(tr("Save As"), this);
     SaveasAction->setShortcuts(QKeySequence::SaveAs);
     connect(SaveasAction, &QAction::triggered, this, &MainWindow::Saveas);
-    CloseAction = new QAction(tr("&Close"), this);
+    CloseAction = new QAction(tr("Close"), this);
     CloseAction->setShortcuts(QKeySequence::Close);
     connect(CloseAction, &QAction::triggered, this, &MainWindow::Close);
 
-    UndoAction = new QAction(tr("&Undo"), this);
-    UndoAction->setShortcuts(QKeySequence::Undo);
-    connect(UndoAction, &QAction::triggered, this, &MainWindow::Undo);
-    RedoAction = new QAction(tr("&Redo"), this);
-    RedoAction->setShortcuts(QKeySequence::Open);
-    connect(RedoAction, &QAction::triggered, this, &MainWindow::Redo);
-    CutAction = new QAction(tr("&Cut"), this);
-    CutAction->setShortcuts(QKeySequence::Cut);
-    connect(CutAction, &QAction::triggered, this, &MainWindow::Cut);
-    CopyAction = new QAction(tr("&Copy"), this);
-    CopyAction->setShortcuts(QKeySequence::Copy);
-    connect(CopyAction, &QAction::triggered, this, &MainWindow::Copy);
-    PasteAction = new QAction(tr("&Paste"), this);
-    PasteAction->setShortcuts(QKeySequence::Paste);
-    connect(PasteAction, &QAction::triggered, this, &MainWindow::Paste);
-
-
-    QMenu *menufile = menuBar()->addMenu(tr("&File"));
+    QMenu *menufile = menuBar()->addMenu(tr("File"));
     menufile->addAction(NewAction);
     menufile->addAction(OpenAction);
     menufile->addSeparator();
@@ -56,13 +40,36 @@ MainWindow::MainWindow(QWidget *parent) :
     menufile->addSeparator();
     menufile->addAction(CloseAction);
 
-    QMenu *menuedit = menuBar()->addMenu(tr("&Edit"));
+    UndoAction = new QAction(tr("Undo"), this);
+    UndoAction->setShortcuts(QKeySequence::Undo);
+    connect(UndoAction, &QAction::triggered, this, &MainWindow::Undo);
+    RedoAction = new QAction(tr("Redo"), this);
+    RedoAction->setShortcuts(QKeySequence::Open);
+    connect(RedoAction, &QAction::triggered, this, &MainWindow::Redo);
+    CutAction = new QAction(tr("Cut"), this);
+    CutAction->setShortcuts(QKeySequence::Cut);
+    connect(CutAction, &QAction::triggered, this, &MainWindow::Cut);
+    CopyAction = new QAction(tr("Copy"), this);
+    CopyAction->setShortcuts(QKeySequence::Copy);
+    connect(CopyAction, &QAction::triggered, this, &MainWindow::Copy);
+    PasteAction = new QAction(tr("Paste"), this);
+    PasteAction->setShortcuts(QKeySequence::Paste);
+    connect(PasteAction, &QAction::triggered, this, &MainWindow::Paste);
+
+    QMenu *menuedit = menuBar()->addMenu(tr("Edit"));
     menuedit->addAction(UndoAction);
     menuedit->addAction(RedoAction);
     menuedit->addSeparator();
     menuedit->addAction(CutAction);
     menuedit->addAction(CopyAction);
     menuedit->addAction(PasteAction);
+
+    AboutAction = new QAction(tr("About"), this);
+    connect(AboutAction, &QAction::triggered, this, &MainWindow::About);
+
+    QMenu *menuhelp = menuBar()->addMenu(tr("help"));
+    menuhelp->addAction(AboutAction);
+
     //statusBar();
 }
 
@@ -120,4 +127,9 @@ void MainWindow::Copy()
 void MainWindow::Paste()
 {
     qDebug() << "paste";
+}
+
+void MainWindow::About()
+{
+    showabout();
 }
