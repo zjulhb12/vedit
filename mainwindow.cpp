@@ -1,12 +1,14 @@
 #include <QAction>
 #include <QMenuBar>
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QTextEdit>
 //#include <QMessageBox>
 //#include <QStatusBar>
 //#include <QToolBar>
 #include <QDebug>
 
 #include "mainwindow.h"
-#include "about.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -16,19 +18,23 @@ MainWindow::MainWindow(QWidget *parent) :
 
     NewAction = new QAction(tr("New"), this);
     NewAction->setShortcuts(QKeySequence::New);
+    NewAction->setStatusTip(tr("Create a new document"));
     connect(NewAction, &QAction::triggered, this, &MainWindow::New);
     OpenAction = new QAction(tr("Open"), this);
     OpenAction->setShortcuts(QKeySequence::Open);
-//    OpenAction->setStatusTip(tr("Open an existing file"));
+    OpenAction->setStatusTip(tr("Open an existing file"));
     connect(OpenAction, &QAction::triggered, this, &MainWindow::Open);
     SaveAction = new QAction(tr("Save"), this);
     SaveAction->setShortcuts(QKeySequence::Save);
+    SaveAction->setStatusTip(tr("Save the current file"));
     connect(SaveAction, &QAction::triggered, this, &MainWindow::Save);
     SaveasAction = new QAction(tr("Save As"), this);
+    SaveasAction->setStatusTip(tr("Save the file in another location"));
     SaveasAction->setShortcuts(QKeySequence::SaveAs);
     connect(SaveasAction, &QAction::triggered, this, &MainWindow::Saveas);
     CloseAction = new QAction(tr("Close"), this);
     CloseAction->setShortcuts(QKeySequence::Close);
+    CloseAction->setStatusTip(tr("Close document"));
     connect(CloseAction, &QAction::triggered, this, &MainWindow::Close);
 
     QMenu *menufile = menuBar()->addMenu(tr("File"));
@@ -44,7 +50,7 @@ MainWindow::MainWindow(QWidget *parent) :
     UndoAction->setShortcuts(QKeySequence::Undo);
     connect(UndoAction, &QAction::triggered, this, &MainWindow::Undo);
     RedoAction = new QAction(tr("Redo"), this);
-    RedoAction->setShortcuts(QKeySequence::Open);
+    RedoAction->setShortcuts(QKeySequence::Redo);
     connect(RedoAction, &QAction::triggered, this, &MainWindow::Redo);
     CutAction = new QAction(tr("Cut"), this);
     CutAction->setShortcuts(QKeySequence::Cut);
@@ -70,7 +76,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QMenu *menuhelp = menuBar()->addMenu(tr("help"));
     menuhelp->addAction(AboutAction);
 
-    //statusBar();
+    statusBar();
+
 }
 
 MainWindow::~MainWindow()
@@ -79,14 +86,29 @@ MainWindow::~MainWindow()
 
 void MainWindow::New()
 {
-   qDebug() << "new";
+    TextEdit = new QTextEdit(this);
+    setCentralWidget(TextEdit);
 }
 
 void MainWindow::Open()
 {
-    qDebug() << "open";
+    QString path = QFileDialog::getOpenFileName(this,
+                                                tr("Open File"),
+                                                ".",
+                                                tr("Text Files(*.txt)"));
+    if(!path.isEmpty()) {
+        QFile file(path);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            QMessageBox::warning(this, tr("Read File"),
+                                 tr("Cannot open file:\n%1").arg(path));
+            return;
+        }
+        QTextStream in(&file);
+        TextEdit->setText(in.readAll());
+        file.close();
+    } else {
+    }
 }
-
 
 void MainWindow::Save()
 {
@@ -131,5 +153,5 @@ void MainWindow::Paste()
 
 void MainWindow::About()
 {
-    showabout();
+    QMessageBox::about(this, tr("About Vedit"), tr("find online\nhttps://github.com/bingzhangdai/vedit"));
 }

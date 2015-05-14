@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTextEdit>
 
 class MainWindow : public QMainWindow
 {
@@ -24,6 +25,8 @@ private:
     void Paste();
 
     void About();
+
+    QTextEdit *TextEdit;
 
     QAction *NewAction;
     QAction *OpenAction;
