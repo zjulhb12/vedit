@@ -11,7 +11,7 @@
 #include "mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent)
+    QMainWindow(parent), TextEdit(NULL)
 {
     setWindowTitle(tr("vedit"));
     resize(400, 300);
@@ -86,8 +86,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::New()
 {
-    TextEdit = new QTextEdit(this);
-    setCentralWidget(TextEdit);
+    if (TextEdit == NULL){
+        TextEdit = new QTextEdit(this);
+        setCentralWidget(TextEdit);
+    }
 }
 
 void MainWindow::Open()
@@ -95,7 +97,7 @@ void MainWindow::Open()
     QString path = QFileDialog::getOpenFileName(this,
                                                 tr("Open File"),
                                                 ".",
-                                                tr("Text Files(*.txt)"));
+                                                tr("Text Files(*.txt);;All Files(*)"));
     if(!path.isEmpty()) {
         QFile file(path);
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -103,16 +105,41 @@ void MainWindow::Open()
                                  tr("Cannot open file:\n%1").arg(path));
             return;
         }
+        if (TextEdit == NULL){
+            TextEdit = new QTextEdit(this);
+            setCentralWidget(TextEdit);
+        }
         QTextStream in(&file);
+        if(TextEdit == NULL) {
+            TextEdit = new QTextEdit(this);
+            setCentralWidget(TextEdit);
+        }
         TextEdit->setText(in.readAll());
         file.close();
-    } else {
+    }
+    else {
+        /////
     }
 }
 
 void MainWindow::Save()
 {
-    qDebug() << "save";
+    QString path = QFileDialog::getSaveFileName(this, tr("Open File"), ".", tr("Text Files(*.txt);;All Files(*)"));
+        if(!path.isEmpty()) {
+            QFile file(path);
+            if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                QMessageBox::warning(this, tr("Write File"),
+                                           tr("Cannot open file:\n%1").arg(path));
+                return;
+            }
+            QTextStream out(&file);
+            out << TextEdit->toPlainText();
+            file.close();
+        }
+        else {
+            QMessageBox::warning(this, tr("Path"),
+                                 tr("You did not select any file."));
+        }
 }
 
 

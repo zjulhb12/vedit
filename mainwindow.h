@@ -12,6 +12,7 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 private:
+
     void New();
     void Open();
     void Save();
