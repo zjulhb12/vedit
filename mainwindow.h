@@ -2,8 +2,15 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+<<<<<<< HEAD
+<<<<<<< HEAD
+#include <QTextEdit>//new
+=======
+=======
+>>>>>>> origin/master
 #include <QTextEdit>
 
+>>>>>>> origin/master
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -42,6 +49,9 @@ private:
     QAction *PasteAction;
 
     QAction *AboutAction;
+
+    QTextEdit *text;//new
+
 };
 
 #endif // MAINWINDOW_H

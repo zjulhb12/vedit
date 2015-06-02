@@ -7,6 +7,7 @@
 //#include <QStatusBar>
 //#include <QToolBar>
 #include <QDebug>
+#include <QTextEdit>//new
 
 #include "mainwindow.h"
 
@@ -14,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), TextEdit(NULL)
 {
     setWindowTitle(tr("vedit"));
+    text=new QTextEdit(this);//new
+    this->setCentralWidget(text);//new
     resize(400, 300);
 
     NewAction = new QAction(tr("New"), this);
@@ -48,18 +51,31 @@ MainWindow::MainWindow(QWidget *parent) :
 
     UndoAction = new QAction(tr("Undo"), this);
     UndoAction->setShortcuts(QKeySequence::Undo);
+    UndoAction->setStatusTip(tr("Back do"));//new
     connect(UndoAction, &QAction::triggered, this, &MainWindow::Undo);
     RedoAction = new QAction(tr("Redo"), this);
+<<<<<<< HEAD
+<<<<<<< HEAD
+    RedoAction->setShortcuts(QKeySequence::Open);
+    RedoAction->setStatusTip(tr("Recover do"));//new
+=======
     RedoAction->setShortcuts(QKeySequence::Redo);
+>>>>>>> origin/master
+=======
+    RedoAction->setShortcuts(QKeySequence::Redo);
+>>>>>>> origin/master
     connect(RedoAction, &QAction::triggered, this, &MainWindow::Redo);
     CutAction = new QAction(tr("Cut"), this);
     CutAction->setShortcuts(QKeySequence::Cut);
+    CutAction->setStatusTip(tr("Cut the current word"));//new
     connect(CutAction, &QAction::triggered, this, &MainWindow::Cut);
     CopyAction = new QAction(tr("Copy"), this);
     CopyAction->setShortcuts(QKeySequence::Copy);
+    CopyAction->setStatusTip(tr("Copy the current word"));//new
     connect(CopyAction, &QAction::triggered, this, &MainWindow::Copy);
     PasteAction = new QAction(tr("Paste"), this);
     PasteAction->setShortcuts(QKeySequence::Paste);
+    PasteAction->setStatusTip(tr("Paste the word"));//new
     connect(PasteAction, &QAction::triggered, this, &MainWindow::Paste);
 
     QMenu *menuedit = menuBar()->addMenu(tr("Edit"));
@@ -76,8 +92,17 @@ MainWindow::MainWindow(QWidget *parent) :
     QMenu *menuhelp = menuBar()->addMenu(tr("help"));
     menuhelp->addAction(AboutAction);
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+    statusBar();//statusBar();
+=======
     statusBar();
 
+>>>>>>> origin/master
+=======
+    statusBar();
+
+>>>>>>> origin/master
 }
 
 MainWindow::~MainWindow()
@@ -155,27 +180,26 @@ void MainWindow::Close()
 
 void MainWindow::Undo()
 {
-    qDebug() << "undo";
+  text->undo();//new
 }
 
 void MainWindow::Redo()
 {
-    qDebug() << "redo";
+    text->redo();//new
 }
 
 void MainWindow::Cut()
 {
-    qDebug() << "cut";
+  text->cut();//new
 }
 
 void MainWindow::Copy()
 {
-    qDebug() << "copy";
+    text->copy();//new
 }
-
 void MainWindow::Paste()
 {
-    qDebug() << "paste";
+   text->paste();//new
 }
 
 void MainWindow::About()
